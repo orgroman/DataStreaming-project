@@ -1,15 +1,17 @@
 from nab.detectors.base import AnomalyDetector
 import random
+import numpy as np
+import rrcf
 
-
-class RRCFDetector(AnomalyDetector):
+class RrctDetector(AnomalyDetector):
     def __init__(self, *args, **kwargs):
         # super(RRCFDetector, self).__init__(*args, **kwargs)
-        self._num_trees = kwargs.get('num_trees', 40)
-        self._shingle_size = kwargs.get('shingle_size', 6)
+        super().__init__(*args, **kwargs)
+        self._num_trees = {}.get('num_trees', 40)
+        self._shingle_size = {}.get('shingle_size', 6)
 
         # Use reservoir sampling to drop or insert points
-        self._tree_size = kwargs.get('tree_size', 256)
+        self._tree_size = {}.get('tree_size', 256)
 
         # Create a forest of empty trees
         self._forest = []
