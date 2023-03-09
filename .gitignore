@@ -17,3 +17,5 @@ scripts/.ipynb_checkpoints/
 # Generated files
 plot_*
 *resultsSummary*
+
+results/
