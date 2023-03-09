@@ -21,6 +21,8 @@
 
 import argparse
 import os
+from pathlib import Path
+
 try:
   import simplejson as json
 except ImportError:
@@ -52,6 +54,8 @@ def main(args):
   dataDir = os.path.join(root, args.dataDir)
   windowsFile = os.path.join(root, args.windowsFile)
   resultsDir = os.path.join(root, args.resultsDir)
+  rrctResultsDir = Path(resultsDir) / 'rrct'
+  rrctResultsDir.mkdir(exist_ok=True, parents=True)
   profilesFile = os.path.join(root, args.profilesFile)
   thresholdsFile = os.path.join(root, args.thresholdsFile)
 
@@ -91,28 +95,28 @@ if __name__ == "__main__":
   parser.add_argument("--detect",
                     help="Generate detector results but do not analyze results "
                     "files.",
-                    default=False,
+                    default=True,
                     action="store_true")
 
   parser.add_argument("--optimize",
                     help="Optimize the thresholds for each detector and user "
                     "profile combination",
-                    default=False,
+                    default=True,
                     action="store_true")
 
   parser.add_argument("--score",
                     help="Analyze results in the results directory",
-                    default=False,
+                    default=True,
                     action="store_true")
 
   parser.add_argument("--normalize",
                     help="Normalize the final scores",
-                    default=False,
+                    default=True,
                     action="store_true")
 
   parser.add_argument("--skipConfirmation",
                     help="If specified will skip the user confirmation step",
-                    default=False,
+                    default=True,
                     action="store_true")
 
   parser.add_argument("--dataDir",
@@ -134,7 +138,7 @@ if __name__ == "__main__":
                     type=str,
                     default=["null", "random",
                              "bayesChangePt", "windowedGaussian", "expose",
-                             "relativeEntropy", "earthgeckoSkyline"],
+                             "relativeEntropy", "earthgeckoSkyline" , "rrct"],
                     help="Comma separated list of detector(s) to use, e.g. "
                          "null, expose")
 
