@@ -14,14 +14,15 @@ class RrctDetector(AnomalyDetector):
     def __init__(self, *args, **kwargs):
         super(RrctDetector, self).__init__(*args, **kwargs)
         self._num_trees = {}.get('num_trees', 40)
-        self._shingle_size = {}.get('shingle_size', 6)
 
         # Use reservoir sampling to drop or insert points
         self._tree_size = {}.get('tree_size', 256)
-        self._codisp_threshold = 0
-        self._codisp_array = np.zeros(self._tree_size)
+        self._shingle_size = {}.get('shingle_size', 6)
+        self._codisp_threshold = 80
+        self._codisp_list = []
         # self._points_array = np.arange(self._tree_size)
-        # self._point_idx = 0
+        self._point_idx = 0
+        self._shingle_points = []
 
         # Create a forest of empty trees
         self._forest = []
@@ -32,42 +33,41 @@ class RrctDetector(AnomalyDetector):
     def handleRecord(self, inputData):
         # For each tree in the forest...
         avg_codisp = 0
-        timestamp = inputData['timestamp']
         point = inputData['value']
-        point_index = len(self._forest[0].leaves)
+        self._shingle_points.append(point)
+        if len(self._shingle_points) > self._shingle_size:
+            self._shingle_points.pop(0)
+        else:
+            return (0,)
 
-        if point_index >= self._tree_size:
-            point_index = int(random.random() * self._tree_size)
-
+        tree_count = 0
         for tree in self._forest:
             # If tree is above permitted size...
-            if len(tree.leaves) < self._tree_size:
-                # Insert the new point into the tree
-                tree.insert_point(point, index=point_index)
-            else:
-                # Drop the sampled point for that index and insert a new sample
-                tree.forget_point(point_index)
+            k = random.randint(0, 1)
+            if k > 0:
+                tree_count+=1
+                point_idx = len(tree.leaves)
+                if len(tree.leaves) >= self._tree_size:
+                    # Insert the new point into the tree
+                    point_idx = int(random.random() * self._tree_size)
+                    tree.forget_point(index=point_idx)
+                tree.insert_point(self._shingle_points, index=point_idx)
+                avg_codisp += tree.codisp(point_idx) / tree_count
 
-                # Insert the new point into the tree
-                tree.insert_point(point, index=point_index)
+        # self._point_idx+=1
+        # self._point_idx=self._point_idx%self._tree_size
 
-                # drop the oldest point
-                #self._point_idx += 1
-                #self._point_idx = self._point_idx % self._tree_size
-                # self._points_array = np.roll(self._points_array, -1)
+        # self._codisp_list.append(avg_codisp)
+        # if len(self._codisp_list) > self._shingle_size:
+        #     self._codisp_list.pop(0)
+        #
+        # qt = np.quantile(self._codisp_list, 0.999)
+        # self._codisp_threshold = qt
 
+        # result = np.quantile(self._codisp_list, 0.99)
+        #
+        result_num = 1-1/(1+np.log(1+avg_codisp))
+        #result = result_num if avg_codisp > qt else 0
+        #result = avg_codisp > self._codisp_threshold
 
-            new_codisp = tree.codisp(point_index)
-            avg_codisp += new_codisp / self._num_trees
-
-        self._codisp_array[point_index] = avg_codisp
-        self._codisp_threshold = np.quantile(self._codisp_array, 0.99)
-
-        # if avg_codisp > self._codisp_threshold + 50:
-        #     self._codisp_threshold = np.quantile(self._codisp_array, 0.99)
-
-        if avg_codisp > self._codisp_threshold:
-            result = 1
-        else:
-            result = 0
-        return (result, )
+        return (result_num,)
