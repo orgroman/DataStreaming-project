@@ -67,7 +67,7 @@ class AnomalyDetector(object, metaclass=abc.ABCMeta):
 
 
   @abc.abstractmethod
-  def handleRecord(self, inputData, label):
+  def handleRecord(self, inputData):
     """
     Returns a list [anomalyScore, *]. It is required that the first
     element of the list is the anomalyScore. The other elements may
@@ -92,7 +92,7 @@ class AnomalyDetector(object, metaclass=abc.ABCMeta):
     return headers
 
 
-  def run(self, labels):
+  def run(self):
     """
     Main function that is called to collect anomaly scores for a given file.
     """
@@ -104,7 +104,7 @@ class AnomalyDetector(object, metaclass=abc.ABCMeta):
 
       inputData = row.to_dict()
 
-      detectorValues = self.handleRecord(inputData, labels[i])
+      detectorValues = self.handleRecord(inputData)
 
       # Make sure anomalyScore is between 0 and 1
       if not 0 <= detectorValues[0] <= 1:
@@ -133,8 +133,8 @@ def detectDataSet(args):
 
   @param args   (tuple)   Arguments to run a detector on a file and then
   """
-  # if not args[5].startswith('artificialWithAnomaly'):
-  #   return
+  if not 'exchange-2_cpc_results.csv' in args[5]:
+    return
 
   (i, detectorInstance, detectorName, labels, outputDir, relativePath) = args
 
@@ -147,7 +147,7 @@ def detectDataSet(args):
                                                 (i, detectorName, relativePath))
   detectorInstance.initialize()
 
-  results = detectorInstance.run(labels)
+  results = detectorInstance.run()
 
   # label=1 for relaxed windows, 0 otherwise
   results["label"] = labels
