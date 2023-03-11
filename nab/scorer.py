@@ -26,7 +26,7 @@ from nab.util import convertResultsPathToDataPath
 
 
 def scoreCorpus(threshold, args):
-  """Scores the corpus given a detector's results and a user profile.
+  """Scores the corpus given a detector's labeled_data and a user profile.
 
   Scores the corpus in parallel.
 
@@ -45,7 +45,7 @@ def scoreCorpus(threshold, args):
                                                 true positives, false negatives,
                                                 and false positives during
                                                 scoring.
-    resultsDetectorDir  (string)                Directory for the results CSVs.
+    resultsDetectorDir  (string)                Directory for the labeled_data CSVs.
 
     resultsCorpus       (nab.Corpus)            Corpus object that holds the per
                                                 record anomaly scores for a
@@ -75,8 +75,8 @@ def scoreCorpus(threshold, args):
     relativePath = convertResultsPathToDataPath(
       os.path.join(detectorName, relativePath))
 
-    # outputPath: dataset results file,
-    # e.g. 'results/detector/artificialNoAnomaly/detector_art_noisy.csv'
+    # outputPath: dataset labeled_data file,
+    # e.g. 'labeled_data/detector/artificialNoAnomaly/detector_art_noisy.csv'
     relativeDir, fileName = os.path.split(relativePath)
     fileName =  detectorName + "_" + fileName
     outputPath = os.path.join(resultsDetectorDir, relativeDir, fileName)
@@ -175,7 +175,7 @@ def scoreDataSet(args):
   )
 
   if scoreFlag:
-    # Append scoring function values to the respective results file
+    # Append scoring function values to the respective labeled_data file
     dfCSV = pandas.read_csv(outputPath, header=0, parse_dates=[0])
     dfCSV["S(t)_%s" % profileName] = scores
     dfCSV.to_csv(outputPath, index=False)

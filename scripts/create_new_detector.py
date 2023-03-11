@@ -44,7 +44,7 @@ def createThresholds(detectorName, thresholdFile):
 
 
 def createResultsDir(detectorName, resultsDir, categorySubDirs):
-  """Create a results dir for the new detector with categorical subdirs."""
+  """Create a labeled_data dir for the new detector with categorical subdirs."""
 
   directory = os.path.join(resultsDir, detectorName)
 
@@ -87,8 +87,8 @@ if __name__ == "__main__":
                       help="The name of the new detector to be added.")
 
   parser.add_argument("--resultsDir",
-                      default="results",
-                      help="This holds the path of the results directory.")
+                      default="labeled_data",
+                      help="This holds the path of the labeled_data directory.")
 
   parser.add_argument("--dataDir",
                       default="data",

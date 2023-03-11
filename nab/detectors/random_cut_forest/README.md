@@ -16,7 +16,7 @@ aws configure
  
 ### Create NAB results folder structure
 
-This command will create the necessary [directories](../../../results/randomCutForest) and entries in the [config/thresholds.json](../../../config/thresholds.json) file:
+This command will create the necessary [directories](../../../labeled_data/randomCutForest) and entries in the [config/thresholds.json](../../../config/thresholds.json) file:
 ```
 python scripts/create_new_detector.py --detector randomCutForest
 ```

@@ -18,7 +18,7 @@
 # http://numenta.org/licenses/
 # ----------------------------------------------------------------------
 """
-This file contains plotting tools for NAB data and results. Run this script to
+This file contains plotting tools for NAB data and labeled_data. Run this script to
 generate example plots.
 """
 
@@ -54,7 +54,7 @@ if __name__ == "__main__":
         withProbation=False)
 
 
-  # Sample 2: to plot the results of running one or more detectors uncomment
+  # Sample 2: to plot the labeled_data of running one or more detectors uncomment
   # the following and update the list of dataFiles, dataNames, and detectors.
   # Note that you must have run every detector on each data file. You can
   # optionally show the point labels, windows or probationary period. You can

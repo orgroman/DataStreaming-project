@@ -140,7 +140,7 @@ class NormalizationTest(unittest.TestCase):
     nullData = [self.resultsHeaders, nullRow]
     createCSV(tmpResultsDir, nullFile, nullData)
 
-    # Create the fake results file
+    # Create the fake labeled_data file
     fakeFile = 'fake/fake_standard_scores.csv'
     fakeRow = ['fake','standard','1.0']
     fakeData = [self.resultsHeaders, fakeRow]
@@ -169,7 +169,7 @@ class NormalizationTest(unittest.TestCase):
     nullData = [self.resultsHeaders, nullRow]
     createCSV(tmpResultsDir, nullFile, nullData)
 
-    # Create the fake results file
+    # Create the fake labeled_data file
     fakeFile = 'fake/fake_standard_scores.csv'
     fakeRow = ['fake','standard','2.0']
     fakeData = [self.resultsHeaders, fakeRow]

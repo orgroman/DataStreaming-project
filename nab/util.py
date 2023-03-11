@@ -65,7 +65,7 @@ def writeJSON(filePath, data):
 
 def updateFinalResults(newResults, resultsFilePath):
   """
-  Keep final results file updated with (most recent) score normalization.
+  Keep final labeled_data file updated with (most recent) score normalization.
 
   @param newResults         (dict)    Dictionary of normalized scores, from
                                       most recent call to normalize().
@@ -73,7 +73,7 @@ def updateFinalResults(newResults, resultsFilePath):
   @param resultsFilePath    (str)     File containing the best normalized scores
                                       from the past runs of normalize().
 
-  @return oldResults        (dict)    Updated final results.
+  @return oldResults        (dict)    Updated final labeled_data.
   """
   results = getOldDict(resultsFilePath)
 

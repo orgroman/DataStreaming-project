@@ -93,7 +93,7 @@ if __name__ == "__main__":
   parser = argparse.ArgumentParser()
 
   parser.add_argument("--detect",
-                    help="Generate detector results but do not analyze results "
+                    help="Generate detector labeled_data but do not analyze labeled_data "
                     "files.",
                     default=True,
                     action="store_true")
@@ -105,7 +105,7 @@ if __name__ == "__main__":
                     action="store_true")
 
   parser.add_argument("--score",
-                    help="Analyze results in the results directory",
+                    help="Analyze labeled_data in the labeled_data directory",
                     default=True,
                     action="store_true")
 
@@ -124,8 +124,8 @@ if __name__ == "__main__":
                     help="This holds all the label windows for the corpus.")
 
   parser.add_argument("--resultsDir",
-                    default="results",
-                    help="This will hold the results after running detectors "
+                    default="labeled_data",
+                    help="This will hold the labeled_data after running detectors "
                     "on the data")
 
   parser.add_argument("--windowsFile",

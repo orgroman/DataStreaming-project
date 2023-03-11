@@ -75,7 +75,7 @@ class ScorerTest(unittest.TestCase):
 
   def testFalsePositiveScaling(self):
     """
-    Test scaling the weight of false positives results in an approximate
+    Test scaling the weight of false positives labeled_data in an approximate
     balance with the true positives.
     
     The contributions of TP and FP scores should approximately cancel; i.e.

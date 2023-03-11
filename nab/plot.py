@@ -65,7 +65,7 @@ def getCSVData(dataPath):
 
 
 class PlotNAB(object):
-  """Plot NAB data and results files with the plotly API."""
+  """Plot NAB data and labeled_data files with the plotly API."""
 
   def __init__(self,
                apiKey=None,
@@ -116,7 +116,7 @@ class PlotNAB(object):
     self.configDir = os.path.abspath(os.path.join(root, "config"))
     self.dataDir = os.path.abspath(os.path.join(root, "data"))
     self.labelsDir = os.path.abspath(os.path.join(root, "labels"))
-    self.resultsDir = os.path.abspath(os.path.join(root, "results"))
+    self.resultsDir = os.path.abspath(os.path.join(root, "labeled_data"))
 
 
   def _getThresholds(self):
@@ -300,7 +300,7 @@ class PlotNAB(object):
                             withWindows=True,
                             withProbation=True):
     """
-    Plot detector results on a data file.
+    Plot detector labeled_data on a data file.
 
     TODO: auto-generate paths from dataFile and detectors.
     """
@@ -386,7 +386,7 @@ class PlotNAB(object):
     dataDir, dataFile = os.path.split(self.dataPath)
     dataDir = os.path.split(dataDir)[1]
     resultsFile = detector + "_" + dataFile
-    resultsPath = os.path.join(os.path.dirname(__file__), os.path.pardir, "results", detector, dataDir, resultsFile)
+    resultsPath = os.path.join(os.path.dirname(__file__), os.path.pardir, "labeled_data", detector, dataDir, resultsFile)
     resultsData = getCSVData(resultsPath)
 
     traces = []

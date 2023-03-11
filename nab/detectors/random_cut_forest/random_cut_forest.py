@@ -25,16 +25,16 @@ Streams][4] algorithm on NAB.
 This script will create an [AWS Kinesis Analytics][2] application that
 will use the [RANDOM_CUT_FOREST][3] function to detect anomalies on NAB data
 files as they are streamed via AWS API ("boto3"). The application's output
-stream with the anomaly scores will be stored in the "results" folder for
+stream with the anomaly scores will be stored in the "labeled_data" folder for
 further processing using NAB standard tools ("run.py") to optimize, normalize
-and score the results.
+and score the labeled_data.
 
 See [NAB Entry Points][1] "Option 2" for more information.
 
 The following commands were used calculate NAB scores using this script:
 
 ```
-# Create results folders
+# Create labeled_data folders
 python scripts/create_new_detector.py --detector randomCutForest
 
 # Create kinesis application
@@ -74,7 +74,7 @@ DATA_PATH = os.path.normpath(os.path.join(SCRIPT_PATH, os.path.pardir,
                                           "data"))
 RESULTS_PATH = os.path.normpath(os.path.join(SCRIPT_PATH, os.path.pardir,
                                              os.path.pardir, os.path.pardir,
-                                             "results"))
+                                             "labeled_data"))
 LABELS_FILE = os.path.normpath(os.path.join(SCRIPT_PATH, os.path.pardir,
                                             os.path.pardir, os.path.pardir,
                                             "labels", "combined_windows.json"))
@@ -323,10 +323,10 @@ def deleteApplication():
 def streamFile(corpus, corpusLabel, resultsdir, name):
   """
   Streams a single NAB data file to Kinesis Analytics Application saving the
-  results for further processing by NAB tools
+  labeled_data for further processing by NAB tools
   :param corpus:  NAB corpus created via "corpus = Corpus(datadir)"
   :param corpusLabel:  NAB corpus labels
-  :param resultsdir: Path to store the results. Make sure to run
+  :param resultsdir: Path to store the labeled_data. Make sure to run
                     'scripts/create_new_detector.py --detector randomCutForest'
                     first
   :param name: NAB data file name (i.e. "realKnownCause/nyc_taxi.csv")
@@ -378,7 +378,7 @@ def streamFile(corpus, corpusLabel, resultsdir, name):
 
   sys.stdout.write(os.linesep)
 
-  # Streaming results may arrive out of order
+  # Streaming labeled_data may arrive out of order
   rows.sort()
 
   results = pandas.DataFrame(rows, columns=["timestamp", "value",
@@ -387,7 +387,7 @@ def streamFile(corpus, corpusLabel, resultsdir, name):
   # Add NAB corpus labels
   results["label"] = corpusLabel.labels[name]["label"]
 
-  # Save results
+  # Save labeled_data
   relativeDir, fileName = os.path.split(name)
   resultFile = os.path.join(resultsdir, DETECTOR_NAME, relativeDir,
                             "{}_{}".format(DETECTOR_NAME, fileName))
@@ -405,7 +405,7 @@ def streamAll(corpus, corpusLabel, resultsdir):
   Streams all files in the NAB corpus
   :param corpus:  NAB corpus created via "corpus = Corpus(dataDir)"
   :param corpusLabel:  NAB corpus labels
-  :param resultsdir: Path to store the results. Make sure to run
+  :param resultsdir: Path to store the labeled_data. Make sure to run
                     'scripts/create_new_detector.py --detector randomCutForest'
                     first
   """
@@ -454,9 +454,9 @@ if __name__ == "__main__":
                       default=LABELS_FILE,
                       help="JSON file containing ground truth labels for the "
                            "corpus.")
-  parser.add_argument("--results",
+  parser.add_argument("--labeled_data",
                       default=RESULTS_PATH,
-                      help="Path to NAB results path.")
+                      help="Path to NAB labeled_data path.")
   parser.add_argument("--create", "-c",
                       help="Create AWS Kinesis application",
                       default=False,

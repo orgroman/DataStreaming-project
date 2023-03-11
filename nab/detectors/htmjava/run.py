@@ -81,8 +81,8 @@ if __name__ == "__main__":
                     help="This holds all the label windows for the corpus.")
 
   parser.add_argument("--resultsDir",
-                    default="results",
-                    help="This will hold the results after running detectors "
+                    default="labeled_data",
+                    help="This will hold the labeled_data after running detectors "
                     "on the data")
 
   parser.add_argument("--windowsFile",

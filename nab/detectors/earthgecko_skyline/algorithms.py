@@ -187,7 +187,7 @@ def least_squares(timeseries, debug, debug_path):
         # new rcond=None resulted in:
         # np.linalg.lstsq(A, y, rcond=None)[0]
         # >>> array([3.85656116e-11, 2.58582310e-20])
-        # Original default results in:
+        # Original default labeled_data in:
         # np.linalg.lstsq(A, y, rcond=-1)[0]
         # >>> array([ 4.10251589e-07, -6.11801949e+02])
         # Changed to pass rcond=-1

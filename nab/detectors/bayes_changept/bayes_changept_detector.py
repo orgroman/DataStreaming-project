@@ -36,7 +36,7 @@ class BayesChangePtDetector(AnomalyDetector):
   n <= x. For a given record, if the maximimum of all the probabilities
   corresponds to a stream length of zero, the record represents a changepoint in
   the data stream. These probabilities are used to calculate anomaly scores for
-  NAB results.
+  NAB labeled_data.
 
   The algorithm implemented here is a port from MATLAB code posted by R. Adams
   (http://hips.seas.harvard.edu/content/bayesian-online-changepoint-detection).
@@ -134,7 +134,7 @@ class BayesChangePtDetector(AnomalyDetector):
     #   2. The anomaly score is the probability of run length 0.
     #   3. Compute a score by assuming a change in sequence from a previously
     #   long run is more anomalous than a change from a short run.
-    # Option 3 results in the best anomaly detections (by far):
+    # Option 3 labeled_data in the best anomaly detections (by far):
     if maxRecursiveRunLength < self.previousMaxRun:
       anomalyScore = 1 - (float(maxRecursiveRunLength) / self.previousMaxRun)
     else:

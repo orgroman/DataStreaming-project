@@ -20,7 +20,7 @@ class ExposeDetector(AnomalyDetector):
 
   There are three EXPoSE variants: incremental, windowing and decay. This
   implementation is based on EXPoSE with decay. All three variants have been
-  tried on NAB but decay gives the best results.Parameters for this detector
+  tried on NAB but decay gives the best labeled_data.Parameters for this detector
   have been tuned to give the best performance.
   """
 

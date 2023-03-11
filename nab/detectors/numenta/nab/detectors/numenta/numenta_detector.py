@@ -55,8 +55,8 @@ class NumentaDetector(AnomalyDetector):
     self.minVal = None
     self.maxVal = None
 
-    # Set this to False if you want to get results based on raw scores
-    # without using AnomalyLikelihood. This will give worse results, but
+    # Set this to False if you want to get labeled_data based on raw scores
+    # without using AnomalyLikelihood. This will give worse labeled_data, but
     # useful for checking the efficacy of AnomalyLikelihood. You will need
     # to re-optimize the thresholds when running with this setting.
     self.useLikelihood = True
@@ -73,7 +73,7 @@ class NumentaDetector(AnomalyDetector):
     Internally to NuPIC "anomalyScore" corresponds to "likelihood_score"
     and "rawScore" corresponds to "anomaly_score". Sorry about that.
     """
-    # Send it to Numenta detector and get back the results
+    # Send it to Numenta detector and get back the labeled_data
     result = self.model.run(inputData)
 
     # Get the value

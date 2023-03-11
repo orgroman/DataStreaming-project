@@ -81,7 +81,7 @@ class AnomalyDetector(object, metaclass=abc.ABCMeta):
 
   def getHeader(self):
     """
-    Gets the outputPath and all the headers needed to write the results files.
+    Gets the outputPath and all the headers needed to write the labeled_data files.
     """
     headers = ["timestamp",
                 "value",
@@ -133,8 +133,8 @@ def detectDataSet(args):
 
   @param args   (tuple)   Arguments to run a detector on a file and then
   """
-  if not 'exchange-2_cpc_results.csv' in args[5]:
-    return
+  # if not 'exchange-2_cpc_results.csv' in args[5]:
+  #   return
 
   (i, detectorInstance, detectorName, labels, outputDir, relativePath) = args
 
@@ -147,7 +147,8 @@ def detectDataSet(args):
                                                 (i, detectorName, relativePath))
   detectorInstance.initialize()
 
-  results = detectorInstance.run()
+  #labeled_data = detectorInstance.run()
+  results = detectorInstance.dataSet.data
 
   # label=1 for relaxed windows, 0 otherwise
   results["label"] = labels

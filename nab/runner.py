@@ -97,7 +97,7 @@ class Runner(object):
 
 
   def detect(self, detectors):
-    """Generate results file given a dictionary of detector classes
+    """Generate labeled_data file given a dictionary of detector classes
 
     Function that takes a set of detectors and a corpus of data and creates a
     set of files storing the alerts and anomaly scores given by the detectors
@@ -176,7 +176,7 @@ class Runner(object):
     Function that must be called only after detection result files have been
     generated and thresholds have been optimized. This looks at the result files
     and scores the performance of each detector specified and stores these
-    results in a csv file.
+    labeled_data in a csv file.
 
     @param detectorNames  (list)    List of detector names.
 
@@ -226,19 +226,19 @@ class Runner(object):
     Function can only be called with the scoring step (i.e. runner.score())
     preceding it.
 
-    This reads the total score values from the results CSVs, and
+    This reads the total score values from the labeled_data CSVs, and
     subtracts the relevant baseline value. The scores are then normalized by
     multiplying by 100 and dividing by perfect less the baseline, where the
     perfect score is the number of TPs possible.
 
-    Note the results CSVs still contain the original scores, not normalized.
+    Note the labeled_data CSVs still contain the original scores, not normalized.
     """
     print("\nRunning score normalization step")
 
     # Get baseline scores for each application profile.
     nullDir = os.path.join(self.resultsDir, "null")
     if not os.path.isdir(nullDir):
-      raise IOError("No results directory for null detector. You must "
+      raise IOError("No labeled_data directory for null detector. You must "
                     "run the null detector before normalizing scores.")
 
     baselines = {}
@@ -256,7 +256,7 @@ class Runner(object):
     for labels in list(labelsDict.values()):
       tpCount += len(labels)
 
-    # Normalize the score from each results file.
+    # Normalize the score from each labeled_data file.
     finalResults = {}
     for resultsFile in self.resultsFiles:
       profileName = [k for k in list(baselines.keys()) if k in resultsFile][0]
@@ -269,7 +269,7 @@ class Runner(object):
         perfect = tpCount * self.profiles[profileName]["CostMatrix"]["tpWeight"]
         score = 100 * (results["Score"].iloc[-1] - base) / (perfect - base)
 
-        # Add to results dict:
+        # Add to labeled_data dict:
         resultsInfo = resultsFile.split(os.path.sep)[-1].split('.')[0]
         detector = resultsInfo.split('_')[0]
         profile = resultsInfo.replace(detector + "_", "").replace("_scores", "")

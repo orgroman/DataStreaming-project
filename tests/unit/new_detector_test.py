@@ -36,20 +36,20 @@ root = recur(os.path.dirname, os.path.realpath(__file__), depth)
 class NewDetectorTest(unittest.TestCase):
 
   def testCreateResultsDir(self):
-    """Tests the creation of the appropriate results directory."""
+    """Tests the creation of the appropriate labeled_data directory."""
 
     detector = "fake_test_detector"
-    results_dir = os.path.join(root, "results")
+    results_dir = os.path.join(root, "labeled_data")
     category_sub_dirs = ["fake_cat1", "fake_cat2"]
 
     self.assertFalse(detector in next(os.walk(results_dir))[1],
-      "{0} is already in the results directory {1}".format(detector,
+      "{0} is already in the labeled_data directory {1}".format(detector,
                                                            results_dir))
 
     createResultsDir(detector, results_dir, category_sub_dirs)
 
     self.assertTrue(detector in next(os.walk(results_dir))[1],
-      "{0} was not created in the results directory {1}".format(detector,
+      "{0} was not created in the labeled_data directory {1}".format(detector,
                                                                 results_dir))
 
     subdirs = next(os.walk(os.path.join(results_dir,detector)))[1]

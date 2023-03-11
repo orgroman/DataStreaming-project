@@ -83,7 +83,7 @@ profiles and/or detectors.
 
 
   def detect(self, detectors):
-    """Generate results file given a dictionary of detector classes
+    """Generate labeled_data file given a dictionary of detector classes
 
     Function that takes a set of detectors and a corpus of data and creates a
     set of files storing the alerts and anomaly scores given by the detectors

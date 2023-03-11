@@ -82,7 +82,7 @@ class AnomalyDetector(object):
 
   def getHeader(self):
     """
-    Gets the outputPath and all the headers needed to write the results files.
+    Gets the outputPath and all the headers needed to write the labeled_data files.
     """
     headers = ["timestamp",
                 "value",
